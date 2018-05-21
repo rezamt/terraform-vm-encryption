@@ -37,21 +37,21 @@ resource "azurerm_template_deployment" "windows_vm" {
     },
     "aadClientID": {
       "type": "string",
-      "defaultValue": "${var.aad_client_id}",
+      "defaultValue": "${var.aadClientID}",
       "metadata": {
         "description": "Client ID of AAD app which has permissions to KeyVault"
       }
     },
     "aadClientSecret": {
       "type": "securestring",
-      "defaultValue": "${var.aad_client_secret}",
+      "defaultValue": "${var.aadClientSecret}",
       "metadata": {
         "description": "Client Secret of AAD app which has permissions to KeyVault"
       }
     },
     "keyVaultName": {
       "type": "string",
-      "defaultValue": "${var.key_vault_name}",
+      "defaultValue": "${var.keyVaultName}",
       "metadata": {
         "description": "Name of the KeyVault to place the volume encryption key"
       }
@@ -65,7 +65,7 @@ resource "azurerm_template_deployment" "windows_vm" {
     },
     "useExistingKek": {
       "type": "string",
-      "defaultValue": "${var.use_kek}",
+      "defaultValue": "${var.useExistingKek}",
       "allowedValues": [ "nokek", "kek" ],
       "metadata": {
         "description": "Select kek if the secret should be encrypted with a key encryption key and pass explicit keyEncryptionKeyURL. For nokek, you can keep keyEncryptionKeyURL empty."
@@ -73,13 +73,12 @@ resource "azurerm_template_deployment" "windows_vm" {
     },
     "keyEncryptionKeyURL": {
       "type": "string",
-      "defaultValue": "${var.key_encryption_key_url}",
+      "defaultValue": "${var.keyEncryptionKeyURL}",
       "metadata": {
         "description": "URL of the KeyEncryptionKey used to encrypt the volume encryption key"
       }
     },
-    "
-    ": {
+    "volumeType": {
       "type": "string",
       "defaultValue": "${var.volume_type}",
       "allowedValues": [ "OS", "Data", "All" ],
@@ -96,7 +95,7 @@ resource "azurerm_template_deployment" "windows_vm" {
     },
     "location": {
       "type": "string",
-      "defaultValue": "[resourceGroup().location]",
+      "defaultValue": "${azurerm_resource_group.test.name}",
       "metadata": {
         "description": "Location for all resources."
       }
@@ -107,9 +106,9 @@ resource "azurerm_template_deployment" "windows_vm" {
     "extensionVersion": "1.1",
     "encryptionOperation": "EnableEncryption",
     "keyEncryptionAlgorithm": "RSA-OAEP",
-    "updateVmUrl": "[concat('https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/201-encrypt-running-windows-vm/updatevm-',parameters('useExistingKek'),'.json')]",
-    "keyVaultURL": "[concat('https://', parameters('keyVaultName'), '.vault.azure.net/')]",
-    "keyVaultResourceID": "[concat(subscription().id,'/resourceGroups/',parameters('keyVaultResourceGroup'),'/providers/Microsoft.KeyVault/vaults/', parameters('keyVaultName'))]"
+    "updateVmUrl": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/201-encrypt-running-windows-vm/updatevm-${var.useExistingKek}.json",
+    "keyVaultURL": "https://${var.key_vault_name}.vault.azure.net/",
+    "keyVaultResourceID": "${var.key_vault_resource_id}"
   },
   "resources": [
     {
