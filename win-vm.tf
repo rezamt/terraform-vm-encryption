@@ -78,7 +78,8 @@ resource "azurerm_template_deployment" "windows_vm" {
         "description": "URL of the KeyEncryptionKey used to encrypt the volume encryption key"
       }
     },
-    "volumeType": {
+    "
+    ": {
       "type": "string",
       "defaultValue": "${var.volume_type}",
       "allowedValues": [ "OS", "Data", "All" ],
