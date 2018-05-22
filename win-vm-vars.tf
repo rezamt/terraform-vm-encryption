@@ -20,5 +20,5 @@ variable "extensionName"              { default = "AzureDiskEncryption"}
 variable "encryptionOperation"        { default = "EnableEncryption"}
 variable "keyEncryptionAlgorithm"     { default = "RSA-OAEP"}
 variable "keyVaultURL"                { default = ""}
-variable "keyVaultResourceID"         { default =  "s"}
+variable "keyVaultResourceID"         { default =  ""}
 variable "useExistingKek"             { default = "kek"} # Check Microsoft Azure Example Link
